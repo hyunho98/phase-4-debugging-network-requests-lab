@@ -63,11 +63,22 @@ developing your own process.
 - Add a new toy when the toy form is submitted
 
   - How I debugged:
+    1. Tried to add a toy to see what happens in it's current state (Received a server error "500")
+    2. Checked the server logs (Trace stack points to line 10 of toys_controller create)
+    3. Fixed the syntax error on line 10 of toys_controller (Toys.create instead of Toy.create)
+    4. Test creating a new toy again (new toy is shown in app, server response 200 OK)
 
 - Update the number of likes for a toy
 
   - How I debugged:
+    1. Test by clicking like on a toy in the app (Console states unexpected end of JSON error at fetch request in ToyCard line 27)
+    2. No syntax errors; check rails server (response 204 No Content & unpermitted parameter id so check the update path in toys_controller)
+    3. toys_controller update does not render the updated toy as json (add the line render json: toy)
+    4. Test clicking the like button again (like count updates in app,server response 200 OK)
 
 - Donate a toy to Goodwill (and delete it from our database)
 
   - How I debugged:
+    1. Try clicking Donate a Toy to Goodwill in the app (console returns 404 not found, server returns no routing error - check config/routes )
+    2. Delete is not included in resources (add :destroy to resources in config/routes)
+    3. Test donate to goodwill again (toy gets deleted in app, server response 200 OK)
